@@ -39,9 +39,6 @@ docker run -it d254e36ebc7c npm run test
 docker exec -it test_id npm run test
 
 //the .travis.yml changes
-script:
-  - docker run USERNAME/docker-react npm run test -- --coverage
-instead should be:
 
 script:
   - docker run -e CI=true USERNAME/docker-react npm run test

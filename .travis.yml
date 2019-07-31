@@ -2,9 +2,21 @@ sudo: required
 services:
   - docker
 
-
 before_install:
   - docker build -t cisco3d/docker-react -f Dockerfile.dev .
 
 script:
   - docker run -e CI=true cisco3d/docker-react npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "docker-react"
+  env: "DockerReact-env"
+  bucket_name: "elasticbeanstalk-us-east-2-852821836135"
+  bucket_path: "docker-react"
+  on:
+    branch: master
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
