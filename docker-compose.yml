@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  web-app:
+    # since we have Dockerfile.dev we cant just do .
+    build:
+      #options for the build file
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      # dont map our local node_modules to container node_modules
+      - /app/node_modules
+      # map local directory to /app
+      - .:/app
+    container_name: react-webapp
+
+  test-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    # override starting command
+    command: ["npm", "run", "test"]
+    container_name: react-testapp
